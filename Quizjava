@@ -1,0 +1,88 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Question {
+    private String questionText;
+    private String[] options;
+    private char correctAnswer;
+
+    public Question(String questionText, String[] options, char correctAnswer) {
+        this.questionText = questionText;
+        this.options = options;
+        this.correctAnswer = correctAnswer;
+    }
+
+    public void displayQuestion() {
+        System.out.println(questionText);
+        for (int i = 0; i < options.length; i++) {
+            System.out.println((char) ('A' + i) + ". " + options[i]);
+        }
+    }
+
+    public boolean isCorrect(char answer) {
+        return Character.toUpperCase(answer) == correctAnswer;
+    }
+}
+
+public class QuizGame {
+    private ArrayList<Question> questions;
+    private int score;
+
+    public QuizGame() {
+        questions = new ArrayList<>();
+        score = 0;
+        loadQuestions();
+    }
+
+    private void loadQuestions() {
+        questions.add(new Question(
+            "Which is the largest planet in our solar system?",
+            new String[]{"Earth", "Jupiter", "Mars", "Saturn"},
+            'B'
+        ));
+        questions.add(new Question(
+            "Who wrote the novel 'Pride and Prejudice'?",
+            new String[]{"Emily Bronte", "Jane Austen", "Mark Twain", "Charles Dickens"},
+            'B'
+        ));
+        questions.add(new Question(
+            "What is the capital of France?",
+            new String[]{"Berlin", "Madrid", "Paris", "Rome"},
+            'C'
+        ));
+    }
+
+    public void startQuiz() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to the Quiz Game!");
+        System.out.println("You will be asked " + questions.size() + " questions.");
+        System.out.println("Each correct answer gives you 1 point. Let's begin!\n");
+
+        for (int i = 0; i < questions.size(); i++) {
+            System.out.println("Question " + (i + 1) + ":");
+            questions.get(i).displayQuestion();
+
+            System.out.print("Your answer (A/B/C/D): ");
+            char userAnswer = scanner.next().charAt(0);
+
+            if (questions.get(i).isCorrect(userAnswer)) {
+                System.out.println("Correct!\n");
+                score++;
+            } else {
+                System.out.println("Wrong! The correct answer was: " 
+                    + questions.get(i).isCorrect('A') + "\n");
+            }
+        }
+
+        System.out.println("Quiz Over!");
+        System.out.println("Your final score is: " + score + "/" + questions.size());
+
+        scanner.close();
+    }
+
+    public static void main(String[] args) {
+        QuizGame quizGame = new QuizGame();
+        quizGame.startQuiz();
+    }
+}
